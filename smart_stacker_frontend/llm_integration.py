@@ -109,21 +109,22 @@ class AnimalStackerLLM:
         try:
             with open(self.prompt_file, 'r', encoding='utf-8') as f:
                 prompt = f.read().strip()
-            
+
             if not prompt:
-                logging.warning(f"Empty prompt file: {self.prompt_file}")
-                return self.get_default_prompt()
-            
-            logging.info(f"Successfully loaded prompt ({len(prompt)} chars) from {self.prompt_file}")
+                raise ValueError(f"Prompt file is empty: {self.prompt_file}")
+
+            logging.info(
+                f"Successfully loaded prompt ({len(prompt)} chars) from {self.prompt_file}"
+            )
             return prompt
-            
+
         except FileNotFoundError:
             logging.error(f"Prompt file not found: {self.prompt_file}")
-            logging.info("Using default built-in prompt")
-            return self.get_default_prompt()
+            raise
+
         except Exception as e:
             logging.error(f"Error loading prompt file: {e}")
-            return self.get_default_prompt()
+            raise
     
     def get_default_prompt(self) -> str:
         """Fallback default prompt if file loading fails"""
