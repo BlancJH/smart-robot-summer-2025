@@ -28,13 +28,19 @@ import time
 import logging
 from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+log_file = os.getenv("LOG_FILE", "default.log")
 
 # Configure logging for academic analysis
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('llm_robot_commands.log'),
+        logging.FileHandler(log_file),
         logging.StreamHandler()
     ]
 )
